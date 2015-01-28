@@ -1,11 +1,10 @@
 import time
-import Tkinter
 
 Tasks = []
 
 class Task():
 	def __init__(self, subject, name, month, day, done=False):
-		self.id = len(Tasks)+1
+		self.id = len(Tasks)
 		self.subject = subject		
 		self.name = name
 		self.month = month
@@ -15,8 +14,8 @@ class Task():
 	def setName(s):
 		self.name = s
 
-	def setDone(b):
-		self.done = b
+	def setDone():
+		self.done = True
 	
 	def getCurMonthDay():
 		curMonth = int(time.strftime("%m"))
@@ -27,9 +26,9 @@ class Task():
 def getTasks():
 	f = open("data", "r")
 	raw = f.read()
+	f.close()
 	lines = raw.split("\n")
-	if lines[len(lines)-1] == "":	
-		lines = lines[:len(Tasks)-1]
+	lines = lines[:len(lines)-1]
 	for i in range(len(lines)):
 		piece = lines[i].split(",")
 		Tasks.append(Task(piece[1], \
@@ -41,13 +40,15 @@ def writeTasks():
 	f = open("data", "w")
 	s = ""
 	for i in range(len(Tasks)):
-		s += str(Tasks[i].id-1) + "," + \
+		s += str(Tasks[i].id)   + "," + \
 		     Tasks[i].subject   + "," + \
 		     Tasks[i].name      + "," + \
 		     Tasks[i].month + "/" + Tasks[i].day + "\n"
 	f.write(s)
-	Tasks = []
-	getTasks[]
+	f.close()
+	del Tasks[:]	
+	getTasks()
+	
 	
 	
 
@@ -66,31 +67,18 @@ def addTask():
 	duedate = raw_input("Date due (mm/dd): ").split("/")
 	
 	Tasks.append(Task(sub, name, duedate[0], duedate[1]))
-	writeTasks()	
-	showTasks()
-	
+	writeTasks()
 
 def remTask(iden):
+	temp = []
 	for i in range(len(Tasks)):
-		if Tasks[i].id == iden:
-			Tasks.remove(Tasks[i])
+		if Tasks[i].id != iden:
+			temp.append(Tasks[i])
+	del Tasks[:]
+	for i in range(len(temp)):
+		Tasks.append(temp[i])
+	writeTasks()
 			
 
-def main():
-	quit = False
-	while quit != True:
-		i = raw_input("Planner: ")
-		if   i == "show":
-			showTasks()
-		elif i == "add":
-			addTask()
-		elif i == "quit":
-			quit = True
-		elif i == "get":
-			getTasks()
-		elif i == "write":
-			writeTasks()
-
-main() 
-
-
+def setComplete(i):
+	Tasks[i-1].done = True
