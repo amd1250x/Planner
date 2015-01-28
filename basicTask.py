@@ -68,6 +68,7 @@ def addTask():
 	
 	Tasks.append(Task(sub, name, duedate[0], duedate[1]))
 	writeTasks()
+	showTasks()
 
 def remTask(iden):
 	temp = []
