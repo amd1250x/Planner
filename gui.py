@@ -52,28 +52,6 @@ def addGUI():
 
 	Confirm = Button(add, text="Confirm", command=addGUIF)
 	Confirm.place(x = 95, y = 90)
-
-def removeGUI(l):
-	print l
-	rem = Toplevel()
-	rem.title("Remove Task")	
-	rem.geometry("285x140")
-
-	idl = Label(rem, text="ID")
-	idl.place(x = 20, y = 20)
-
-	ide = Entry(rem, width=2)
-	ide.place(x = 60, y = 20)
-
-	def remGUIF(l):
-		for i in range(len(l)):
-			print type(l[int(ide.get())][i])
-			l[int(ide.get())][i].place_forget()		
-		remTask(int(ide.get()))
-		rem.destroy()
-
-	idb = Button(rem, text="Remove", command=lambda:remGUIF(l))
-	idb.place(x = 40, y = 70)
 	
 def main():
 	getTasks()
@@ -82,18 +60,17 @@ def main():
 	main.title("Planner")
 	main.geometry("640x480")
 	
-	def showGUIF(l):		
-		l = [[0,0,0,0]]*len(Tasks)
-		'''for i in range(len(Tasks)):
-			l.append(Label(main, text = \
+	def showGUIF():		
+		for i in range(len(Tasks)):
+			TasksGUI.append(Label(main, text = \
 				 str(Tasks[i].id) + " | " + \
 				 Tasks[i].subject + " | " + \
 				 Tasks[i].name + " | " + \
 			    	 Tasks[i].month + "/" + \
 				 Tasks[i].day))
-			l[i].place(x = 20, y = 100+(20*i))'''
+			TasksGUI[i].place(x = 20, y = 100+(20*i))
 
-		for i in range(len(Tasks)):
+		'''for i in range(len(Tasks)):
 			l[i][0] = Label(main, text = str(Tasks[i].id))
 			l[i][1] = Label(main, text = Tasks[i].subject)
 			l[i][2] = Label(main, text = Tasks[i].name)
@@ -106,25 +83,44 @@ def main():
 				elif j == 3:
 					l[i][j].place(x = 20+(150*j), y = 100+(20*i))
 				else:
-					l[i][j].place(x = 20+(20*j), y = 100+(20*i))
+					l[i][j].place(x = 20+(20*j), y = 100+(20*i))'''
+			
 
 		
 	def refreshGUI():
 		for i in range(len(TasksGUI)):
-			for j in range(4):
-				TasksGUI[i][j].place_forget()
-		showGUIF(TasksGUI)
+			TasksGUI[i].place_forget()
+		showGUIF()
+
+	def removeGUI():
+		rem = Toplevel()
+		rem.title("Remove Task")	
+		rem.geometry("285x140")
+
+		idl = Label(rem, text="ID")
+		idl.place(x = 20, y = 20)
+
+		ide = Entry(rem, width=2)
+		ide.place(x = 60, y = 20)
+
+		def remGUIF():
+			TasksGUI[int(ide.get())].place_forget()	
+			remTask(int(ide.get()))
+			rem.destroy()
+
+		idb = Button(rem, text="Remove", command=remGUIF)
+		idb.place(x = 40, y = 70)
 
 	addB = Button(main, text="Add Task", command=addGUI)
 	addB.place(x = 20, y = 20)
 	
-	remB = Button(main, text="Remove Task", command=lambda:removeGUI(TasksGUI))
+	remB = Button(main, text="Remove Task", command=removeGUI)
 	remB.place(x = 120, y = 20)
 
 	refB = Button(main, text="Refresh", command=refreshGUI)
 	refB.place(x = 20, y = 60)
 
-	showGUIF(TasksGUI)
+	showGUIF()
 	main.mainloop()	
 
 main()

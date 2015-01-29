@@ -33,7 +33,7 @@ def getDayOfYear(m, d):
 	if year[imonth-1] > 0:
 		# Set the total days to 0
 		days = 0
-		# Interate through to get the days for each month preceding imonth, and add their lengths to days
+		# Iterate through to get the days for each month preceding imonth, and add their lengths to days
 		for i in range(imonth-1):
 			days += len(year[i])
 		# Add iday, the day from the param, to the total days
