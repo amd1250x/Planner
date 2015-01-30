@@ -9,7 +9,7 @@ from basicTask import *
 import datetime
 
 # This function takes a month and day param, both the numerical equivalencies (1/21 == January 21)
-def getDayOfYear(m, d):
+def getDayOfYear(d, m):
 	# Created the months. They don't need to be populated, we just need the lengths
 	Jan = list(range(31))
 	Feb = list(range(28))
@@ -30,7 +30,7 @@ def getDayOfYear(m, d):
 	iday = int(d)
 	
 	# If the year is not January...
-	if year[imonth-1] > 0:
+	if year[imonth] > 0:
 		# Set the total days to 0
 		days = 0
 		# Iterate through to get the days for each month preceding imonth, and add their lengths to days
@@ -54,9 +54,9 @@ def getCurMonthDay():
 def getDaysUntilDue(dd, md):
 	mdlist = getCurMonthDay()
 	mddue = getDayOfYear(dd, md)
-	mdtoday = getDayOfYear(mdlist[0], mdlist[1])
+	mdtoday = getDayOfYear(mdlist[1], mdlist[0])
 	return mddue-mdtoday
 
-
-
+# Uncomment for testing getDayOfYear
+#print getDayOfYear(25, 4)
 		

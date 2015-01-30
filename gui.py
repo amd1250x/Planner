@@ -60,6 +60,7 @@ def main():
 		Confirm.place(x = 95, y = 90)	
 
 	def showGUIF():
+		m = getCurMonthDay()
 		for i in range(len(Tasks)):
 			TasksGUI.append(Label(main, text = \
 				 str(Tasks[i].id) + "\t" + \
@@ -67,6 +68,8 @@ def main():
 				 Tasks[i].name + " "*(80-len(Tasks[i].name)) + "\t" + " "*10 + \
 			    	 Tasks[i].month + "/" + \
 				 Tasks[i].day))
+			if getDayOfYear(Tasks[i].day, Tasks[i].month) < getDayOfYear(m[1], m[0]):
+				TasksGUI[i]['fg'] = 'red'
 			TasksGUI[i].place(x = 20, y = 100+(20*i))
 
 		'''for i in range(len(Tasks)):
@@ -112,6 +115,19 @@ def main():
 		idb = Button(rem, text="Remove", command=remGUIF)
 		idb.place(x = 40, y = 70)
 
+	def forTomorrowGUI():
+		ftList = []
+		ft = Toplevel()
+		ft.title("For Tomorrow")
+		ft.geometry("360x240")
+		
+		for i in range(len(Tasks)):
+			if getDaysUntilDue(Tasks[i].day, Tasks[i].month) < 7:
+				ftList.append(Label(ft, text = Tasks[i].name + " "*(30-len(Tasks[i].name)) + "\t" + \
+								Tasks[i].month + "/" + Tasks[i].day))
+		for i in range(len(ftList)):
+			ftList[i].place(x = 20, y = 100+(20*i))
+
 	addB = Button(main, text="Add Task", command=addGUI)
 	addB.place(x = 20, y = 20)
 	
@@ -120,6 +136,9 @@ def main():
 
 	refB = Button(main, text="Refresh", command=refreshGUI)
 	refB.place(x = 20, y = 60)
+
+	ftB  = Button(main, text="For Tomorrow", command=forTomorrowGUI)
+	ftB.place(x = 120, y = 60)
 
 	showGUIF()
 	main.mainloop()	
