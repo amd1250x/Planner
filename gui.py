@@ -60,7 +60,7 @@ def main():
 	main.title("Planner")
 	main.geometry("640x480")
 	
-	def showGUIF():		
+	def showGUIF():
 		for i in range(len(Tasks)):
 			TasksGUI.append(Label(main, text = \
 				 str(Tasks[i].id) + " | " + \
@@ -90,6 +90,7 @@ def main():
 	def refreshGUI():
 		for i in range(len(TasksGUI)):
 			TasksGUI[i].place_forget()
+		del TasksGUI[:]
 		showGUIF()
 
 	def removeGUI():
