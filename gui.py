@@ -5,53 +5,6 @@ gui.py - This is the GUI, it use Tkinter, and is a serious work in progress
 from Tkinter import *
 from basicTask import *
 from specialTask import *
-
-
-
-def addGUI():
-
-	textFieldx = 140
-	textFieldy = 20
-	
-	labelx = 20
-	labely = 20
-
-	add = Toplevel()
-	add.title("Add Task")
-	add.geometry("285x140")
-		
-	subjectLabel = Label(add, text="Subject:")
-	subjectLabel.place(x = labelx, y = labely)
-
-	subject = Entry(add)
-	subject.place(x = textFieldx, y = textFieldy, width = 120)
-	
-	nameLabel = Label(add, text="Task:")
-	nameLabel.place(x = labelx, y = labely*2)
-
-	name = Entry(add)
-	name.place(x = textFieldx, y = textFieldy*2, width = 120)	
-	
-	dueLabel = Label(add, text="Due Date(mm/dd):")
-	dueLabel.place(x = labelx, y = labely*3)
-
-	month = Entry(add, width=2)
-	month.place(x = textFieldx, y = textFieldy*3)
-	slash = Label(add, text="/")
-	slash.place(x = textFieldx+22, y = textFieldy*3)
-	day = Entry(add, width=2)
-	day.place(x = textFieldx+30, y = textFieldy*3)
-	
-	def addGUIF():
-		Tasks.append(Task(subject.get(), \
-			          name.get(), \
-				  month.get(), \
-				  day.get()))
-		writeTasks()
-		add.destroy()
-
-	Confirm = Button(add, text="Confirm", command=addGUIF)
-	Confirm.place(x = 95, y = 90)
 	
 def main():
 	getTasks()
@@ -60,12 +13,58 @@ def main():
 	main.title("Planner")
 	main.geometry("640x480")
 	
+	def addGUI():
+
+		textFieldx = 140
+		textFieldy = 20
+	
+		labelx = 20
+		labely = 20
+
+		add = Toplevel()
+		add.title("Add Task")
+		add.geometry("285x140")
+		
+		subjectLabel = Label(add, text="Subject:")
+		subjectLabel.place(x = labelx, y = labely)
+
+		subject = Entry(add)
+		subject.place(x = textFieldx, y = textFieldy, width = 120)
+	
+		nameLabel = Label(add, text="Task:")
+		nameLabel.place(x = labelx, y = labely*2)
+
+		name = Entry(add)
+		name.place(x = textFieldx, y = textFieldy*2, width = 120)	
+	
+		dueLabel = Label(add, text="Due Date(mm/dd):")
+		dueLabel.place(x = labelx, y = labely*3)
+
+		month = Entry(add, width=2)
+		month.place(x = textFieldx, y = textFieldy*3)
+		slash = Label(add, text="/")
+		slash.place(x = textFieldx+22, y = textFieldy*3)
+		day = Entry(add, width=2)
+		day.place(x = textFieldx+30, y = textFieldy*3)
+	
+		def addGUIF():
+			Tasks.append(Task(subject.get(), \
+					  name.get(), \
+					  month.get(), \
+					  day.get()))
+			writeTasks()
+			refreshGUI()
+			add.destroy()
+
+		Confirm = Button(add, text="Confirm", command=addGUIF)
+		Confirm.place(x = 95, y = 90)	
+
 	def showGUIF():
 		for i in range(len(Tasks)):
 			TasksGUI.append(Label(main, text = \
 				 str(Tasks[i].id) + "\t" + \
 				 Tasks[i].subject + "\t" + \
-				 Tasks[i].name + " "*(80-len(Tasks[i].name)) + "\t" + \
+				 Tasks[i].name + " "*(80-len(Tasks[i].name)) + "\t" + " "*10 + \
 			    	 Tasks[i].month + "/" + \
 				 Tasks[i].day))
 			TasksGUI[i].place(x = 20, y = 100+(20*i))
@@ -107,6 +106,7 @@ def main():
 		def remGUIF():
 			TasksGUI[int(ide.get())].place_forget()	
 			remTask(int(ide.get()))
+			refreshGUI()
 			rem.destroy()
 
 		idb = Button(rem, text="Remove", command=remGUIF)
