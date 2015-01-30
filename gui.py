@@ -63,9 +63,9 @@ def main():
 	def showGUIF():
 		for i in range(len(Tasks)):
 			TasksGUI.append(Label(main, text = \
-				 str(Tasks[i].id) + " | " + \
-				 Tasks[i].subject + " | " + \
-				 Tasks[i].name + " | " + \
+				 str(Tasks[i].id) + "\t" + \
+				 Tasks[i].subject + "\t" + \
+				 Tasks[i].name + " "*(80-len(Tasks[i].name)) + "\t" + \
 			    	 Tasks[i].month + "/" + \
 				 Tasks[i].day))
 			TasksGUI[i].place(x = 20, y = 100+(20*i))
