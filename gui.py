@@ -8,7 +8,8 @@ from specialTask import *
 	
 def main():
 	getTasks()
-	TasksGUI = []	
+	TasksGUI = []
+	comp = []
 	main = Tk()
 	main.title("Planner")
 	main.geometry("640x480")
@@ -23,7 +24,7 @@ def main():
 
 		add = Toplevel()
 		add.title("Add Task")
-		add.geometry("285x140")
+		add.geometry("285x150")
 		
 		subjectLabel = Label(add, text="Subject:")
 		subjectLabel.place(x = labelx, y = labely)
@@ -46,31 +47,40 @@ def main():
 		slash.place(x = textFieldx+22, y = textFieldy*3)
 		day = Entry(add, width=2)
 		day.place(x = textFieldx+30, y = textFieldy*3)
+
+		imprt = Entry(add, width=2)
+		imprt.place(x = textFieldx, y = textFieldy*4)
+		
+		imprtLabel = Label(add, text="Importance(1-5):")
+		imprtLabel.place(x = labelx, y = labely*4)
 	
 		def addGUIF():
 			Tasks.append(Task(subject.get(), \
 					  name.get(), \
 					  month.get(), \
-					  day.get()))
+					  day.get(), \
+					  imprt.get()))
 			writeTasks()
 			refreshGUI()
 			add.destroy()
 
 		Confirm = Button(add, text="Confirm", command=addGUIF)
-		Confirm.place(x = 95, y = 90)	
+		Confirm.place(x = 95, y = 100)	
 
 	def showGUIF():
 		m = getCurMonthDay()
 		for i in range(len(Tasks)):
-			TasksGUI.append(Label(main, text = \
-				 str(Tasks[i].id) + "\t" + \
-				 Tasks[i].subject + "\t" + \
-				 Tasks[i].name + " "*(80-len(Tasks[i].name)) + "\t" + " "*10 + \
-			    	 Tasks[i].month + "/" + \
-				 Tasks[i].day))
-			if getDayOfYear(Tasks[i].day, Tasks[i].month) < getDayOfYear(m[1], m[0]):
-				TasksGUI[i]['fg'] = 'red'
-			TasksGUI[i].place(x = 20, y = 100+(20*i))
+			if Tasks[i].done == False:
+				TasksGUI.append(Label(main, text = \
+					 str(Tasks[i].id) + "\t" + \
+					 Tasks[i].subject + "\t" + \
+					 Tasks[i].name + " "*(65-len(Tasks[i].name)) + "\t" + " "*10 + \
+				    	 Tasks[i].month + "/" + \
+					 Tasks[i].day + "   " + \
+					 Tasks[i].imp))
+				if getDayOfYear(Tasks[i].day, Tasks[i].month) < getDayOfYear(m[1], m[0]):
+					TasksGUI[i]['fg'] = 'red'
+				TasksGUI[i].place(x = 20, y = 100+(25*i))
 
 		'''for i in range(len(Tasks)):
 			l[i][0] = Label(main, text = str(Tasks[i].id))
@@ -109,6 +119,7 @@ def main():
 		def remGUIF():
 			TasksGUI[int(ide.get())].place_forget()	
 			remTask(int(ide.get()))
+			completeGUI()
 			refreshGUI()
 			rem.destroy()
 
@@ -122,11 +133,14 @@ def main():
 		ft.geometry("360x240")
 		
 		for i in range(len(Tasks)):
-			if getDaysUntilDue(Tasks[i].day, Tasks[i].month) < 7:
+			if getDaysUntilDue(Tasks[i].day, Tasks[i].month) < 7 and TasksGUI[i]['fg'] != 'red':
 				ftList.append(Label(ft, text = Tasks[i].name + " "*(30-len(Tasks[i].name)) + "\t" + \
 								Tasks[i].month + "/" + Tasks[i].day))
 		for i in range(len(ftList)):
-			ftList[i].place(x = 20, y = 100+(20*i))
+			ftList[i].place(x = 60, y = 50+(20*i))
+		
+		close = Button(ft, text="Close", command=ft.destroy)
+		close.place(x = 140, y = 50+(20*len(ftList)))
 
 	addB = Button(main, text="Add Task", command=addGUI)
 	addB.place(x = 20, y = 20)
