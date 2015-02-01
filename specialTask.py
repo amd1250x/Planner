@@ -59,4 +59,34 @@ def getDaysUntilDue(dd, md):
 
 # Uncomment for testing getDayOfYear
 #print getDayOfYear(25, 4)
+
+def sortByID(l):
+	for i in range(len(l)):
+		for j in range(len(l)-1-i):
+			if l[j].id > l[j+1].id:
+				l[j], l[j+1] = l[j+1], l[j]
+
+def sortBySub(l):
+	for i in range(len(l)):
+		for j in range(len(l)-1-i):
+			if l[j].subject > l[j+1].subject:
+				l[j], l[j+1] = l[j+1], l[j]
+
+def sortByName(l):
+	for i in range(len(l)):
+		for j in range(len(l)-1-i):
+			if l[j].name > l[j+1].name:
+				l[j], l[j+1] = l[j+1], l[j]
 		
+def sortByDate(l):
+	for i in range(len(l)):
+		for j in range(len(l)-1-i):
+			if getDaysUntilDue(l[j].day, l[j].month) > \
+			   getDaysUntilDue(l[j+1].day, l[j+1].month):
+				l[j], l[j+1] = l[j+1], l[j]
+
+def sortByImp(l):
+	for i in range(len(l)):
+		for j in range(len(l)-1-i):
+			if l[j].imp > l[j+1].imp:
+				l[j], l[j+1] = l[j+1], l[j]		

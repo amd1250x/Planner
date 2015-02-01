@@ -80,7 +80,7 @@ def main():
 					 Tasks[i].imp))
 				if getDayOfYear(Tasks[i].day, Tasks[i].month) < getDayOfYear(m[1], m[0]):
 					TasksGUI[i]['fg'] = 'red'
-				TasksGUI[i].place(x = 20, y = 100+(25*i))
+				TasksGUI[i].place(x = 20, y = 140+(25*i))
 
 		'''for i in range(len(Tasks)):
 			l[i][0] = Label(main, text = str(Tasks[i].id))
@@ -119,7 +119,6 @@ def main():
 		def remGUIF():
 			TasksGUI[int(ide.get())].place_forget()	
 			remTask(int(ide.get()))
-			completeGUI()
 			refreshGUI()
 			rem.destroy()
 
@@ -142,6 +141,26 @@ def main():
 		close = Button(ft, text="Close", command=ft.destroy)
 		close.place(x = 140, y = 50+(20*len(ftList)))
 
+	def sortIDGUI():
+		sortByID(Tasks)
+		refreshGUI()
+
+	def sortSubGUI():
+		sortBySub(Tasks)
+		refreshGUI()
+
+	def sortNameGUI():
+		sortByName(Tasks)
+		refreshGUI()
+
+	def sortDateGUI():
+		sortByDate(Tasks)
+		refreshGUI()
+
+	def sortImpGUI():
+		sortByImp(Tasks)
+		refreshGUI()
+
 	addB = Button(main, text="Add Task", command=addGUI)
 	addB.place(x = 20, y = 20)
 	
@@ -153,6 +172,24 @@ def main():
 
 	ftB  = Button(main, text="For Tomorrow", command=forTomorrowGUI)
 	ftB.place(x = 120, y = 60)
+
+	srtL = Label(main, text="Sort by: ")
+	srtL.place(x = 20, y = 105)
+	
+	srtIDB = Button(main, text="ID", command=sortIDGUI)
+	srtIDB.place(x = 80, y = 100)
+
+	srtSB = Button(main, text="Subject", command=sortSubGUI)
+	srtSB.place(x = 130, y = 100)
+	
+	srtNB = Button(main, text="Name", command=sortNameGUI)
+	srtNB.place(x = 214, y = 100)
+
+	srtDB = Button(main, text="Date", command=sortDateGUI)
+	srtDB.place(x = 287, y = 100)
+	
+	srtIB = Button(main, text="Importance", command=sortImpGUI)
+	srtIB.place(x = 353, y = 100)
 
 	showGUIF()
 	main.mainloop()	
