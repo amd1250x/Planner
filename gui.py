@@ -167,12 +167,6 @@ def main():
 			if vList[i] != None:
 				vList[i].place(x = 5+(96*i), y = 35)
 			weekGUI[i].grid(row=0, column=i, padx = 20, pady = 10)
-			
-		
-
-		'''for i in range(len(Tasks)):
-			if getDaysUntilDue(Tasks[i].day, Tasks[i].month) <= 7 and TasksGUI[i]['fg'] != 'grey':
-				vList.append( '''
 
 	def sortIDGUI():
 		sortByID(Tasks)
