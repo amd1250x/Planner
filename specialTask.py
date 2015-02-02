@@ -8,22 +8,23 @@ top of my head, so some obvious omptimization may very well be needed
 from basicTask import *
 import datetime
 
+Jan = list(range(31))
+Feb = list(range(28))
+Mar = list(range(31))
+Apr = list(range(30))
+May = list(range(31))
+Jun = list(range(30))
+Jul = list(range(31))
+Aug = list(range(31))
+Sep = list(range(30))
+Oct = list(range(31))	
+Nov = list(range(30))
+Dec = list(range(31))
+year = [Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]
+
 # This function takes a month and day param, both the numerical equivalencies (1/21 == January 21)
 def getDayOfYear(d, m):
 	# Created the months. They don't need to be populated, we just need the lengths
-	Jan = list(range(31))
-	Feb = list(range(28))
-	Mar = list(range(31))
-	Apr = list(range(30))
-	May = list(range(31))
-	Jun = list(range(30))
-	Jul = list(range(31))
-	Aug = list(range(31))
-	Sep = list(range(30))
-	Oct = list(range(31))	
-	Nov = list(range(30))
-	Dec = list(range(31))
-	year = [Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]
 	totaldays = 365
 	# Just so that we don't need to keep modifying them to ints
 	imonth = int(m)

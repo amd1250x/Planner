@@ -79,7 +79,7 @@ def main():
 					 Tasks[i].day + "   " + \
 					 Tasks[i].imp))
 				if getDayOfYear(Tasks[i].day, Tasks[i].month) < getDayOfYear(m[1], m[0]):
-					TasksGUI[i]['fg'] = 'red'
+					TasksGUI[i]['fg'] = 'gray'
 				TasksGUI[i].place(x = 20, y = 140+(25*i))
 
 		'''for i in range(len(Tasks)):
@@ -190,6 +190,9 @@ def main():
 	
 	srtIB = Button(main, text="Importance", command=sortImpGUI)
 	srtIB.place(x = 353, y = 100)
+
+	dateL = Label(main, text="Today's Date: " + str(getCurMonthDay()[0]) + "/" + str(getCurMonthDay()[1]))
+	dateL.place(x = 250, y = 20)
 
 	showGUIF()
 	main.mainloop()	
