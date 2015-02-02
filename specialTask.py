@@ -8,6 +8,8 @@ top of my head, so some obvious omptimization may very well be needed
 from basicTask import *
 import datetime
 
+days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+
 Jan = list(range(31))
 Feb = list(range(28))
 Mar = list(range(31))
@@ -90,4 +92,5 @@ def sortByImp(l):
 	for i in range(len(l)):
 		for j in range(len(l)-1-i):
 			if l[j].imp > l[j+1].imp:
-				l[j], l[j+1] = l[j+1], l[j]		
+				l[j], l[j+1] = l[j+1], l[j]
+

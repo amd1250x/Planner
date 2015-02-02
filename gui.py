@@ -132,7 +132,7 @@ def main():
 		ft.geometry("360x240")
 		
 		for i in range(len(Tasks)):
-			if getDaysUntilDue(Tasks[i].day, Tasks[i].month) < 7 and TasksGUI[i]['fg'] != 'red':
+			if getDaysUntilDue(Tasks[i].day, Tasks[i].month) < 7 and TasksGUI[i]['fg'] != 'grey':
 				ftList.append(Label(ft, text = Tasks[i].name + " "*(30-len(Tasks[i].name)) + "\t" + \
 								Tasks[i].month + "/" + Tasks[i].day))
 		for i in range(len(ftList)):
@@ -140,6 +140,29 @@ def main():
 		
 		close = Button(ft, text="Close", command=ft.destroy)
 		close.place(x = 140, y = 50+(20*len(ftList)))
+
+	def viewTheWeekGUI():
+		weekGUI = []
+		framesGUI = []
+		vList = []
+		v = Toplevel()
+		v.title("Current Week")
+		v.geometry("700x200")
+
+		sep = 50
+
+		for i in range(7):
+			framesGUI.append(Frame(v, width=96, height=30, bd=1, relief=SOLID))
+			weekGUI.append(Label(v, text = days[i]))
+		for i in range(7):
+			framesGUI[i].place(x = 5+(96*i), y = 5)
+			weekGUI[i].grid(row=0, column=i, padx = 20, pady = 10)
+			
+		
+
+		'''for i in range(len(Tasks)):
+			if getDaysUntilDue(Tasks[i].day, Tasks[i].month) <= 7 and TasksGUI[i]['fg'] != 'grey':
+				vList.append( '''
 
 	def sortIDGUI():
 		sortByID(Tasks)
@@ -193,6 +216,9 @@ def main():
 
 	dateL = Label(main, text="Today's Date: " + str(getCurMonthDay()[0]) + "/" + str(getCurMonthDay()[1]))
 	dateL.place(x = 250, y = 20)
+
+	WkB = Button(main, text="Week", command=viewTheWeekGUI)
+	WkB.place(x = 400, y = 20)
 
 	showGUIF()
 	main.mainloop()	
