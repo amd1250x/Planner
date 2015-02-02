@@ -144,18 +144,28 @@ def main():
 	def viewTheWeekGUI():
 		weekGUI = []
 		framesGUI = []
-		vList = []
+		vList = [None]*7
 		v = Toplevel()
 		v.title("Current Week")
 		v.geometry("700x200")
-
+		
+		today = getDayOfYear(getCurMonthDay()[0], getCurMonthDay()[1])
+		
+		
 		sep = 50
+
+		for i in range(len(Tasks)):
+			if getDaysUntilDue(Tasks[i].day, Tasks[i].month) < 7 and TasksGUI[i]['fg'] != 'grey':
+				vList[getDaysUntilDue(Tasks[i].day, Tasks[i].month)-datetime.datetime.today().weekday()] = Label(v, text = Tasks[i].name)
 
 		for i in range(7):
 			framesGUI.append(Frame(v, width=96, height=30, bd=1, relief=SOLID))
 			weekGUI.append(Label(v, text = days[i]))
+			
 		for i in range(7):
 			framesGUI[i].place(x = 5+(96*i), y = 5)
+			if vList[i] != None:
+				vList[i].place(x = 5+(96*i), y = 35)
 			weekGUI[i].grid(row=0, column=i, padx = 20, pady = 10)
 			
 		
