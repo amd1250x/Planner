@@ -91,6 +91,14 @@ def sortByDate(l):
 def sortByImp(l):
 	for i in range(len(l)):
 		for j in range(len(l)-1-i):
-			if l[j].imp > l[j+1].imp:
+			if l[j].imp < l[j+1].imp:
 				l[j], l[j+1] = l[j+1], l[j]
+
+def sameDayCnt(t):
+	count = 0
+	for i in range(len(Tasks)):
+		if t.day == Tasks[i].day:
+			count += 1
+	return count
+	
 
