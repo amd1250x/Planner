@@ -159,16 +159,14 @@ def main():
 				vList[getDaysUntilDue(temp[i].day, temp[i].month)+datetime.datetime.today().weekday()] = [Label(v, text=temp[i].name)]
 		c = 0
 		for i in range(len(temp)):
-			if sameDayCnt(temp[i]) >= c:
+			if sameDayCnt(temp[i]) > c:
 				c = sameDayCnt(temp[i])
 		print c
-		for i in range(len(temp)-c):
-			if getDaysUntilDue(temp[i].day, temp[i].month) == getDaysUntilDue(temp[i+2].day, temp[i+2].month):
-				for j in range(c):
-					vList[getDaysUntilDue(temp[i].day, temp[i].month)+datetime.datetime.today().weekday()].append[Label(v, text = temp[j].name)]
-
-		sep = 50
-
+		if c > 1:
+			for i in range(len(temp)-c-2):
+				xday = getDaysUntilDue(temp[i].day, temp[i].month)+datetime.datetime.today().weekday()
+				for j in range(c-1):
+					vList[xday].append(Label(v, text = temp[j].name))
 		print vList
 		for i in range(7):
 			framesGUI.append(Frame(v, width=96, height=30, bd=1, relief=SOLID))

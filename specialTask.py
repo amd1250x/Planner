@@ -97,7 +97,7 @@ def sortByImp(l):
 def sameDayCnt(t):
 	count = 0
 	for i in range(len(Tasks)):
-		if t.day == Tasks[i].day:
+		if getDaysUntilDue(t.day, t.month) == getDaysUntilDue(Tasks[i].day, Tasks[i].month):
 			count += 1
 	return count
 	
