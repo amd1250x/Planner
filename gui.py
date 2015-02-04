@@ -5,18 +5,18 @@ gui.py - This is the GUI, it use Tkinter, and is a serious work in progress
 from Tkinter import *
 from basicTask import *
 from specialTask import *
-	
+
+# This entire function is run at the end.
 def main():
 	getTasks()
-	TasksGUI = []
-	comp = []
+	TasksGUI = [] # These are the tasks displayed on the main screen
 	main = Tk()
 	main.title("Planner")
 	main.geometry("640x480")
 	
-	def addGUI():
+	def addGUI(): # Add a task, except in the GUI
 
-		textFieldx = 140
+		textFieldx = 140 # These are just variables so that I could just use them as factors
 		textFieldy = 20
 	
 		labelx = 20
@@ -53,7 +53,7 @@ def main():
 		
 		imprtLabel = Label(add, text="Importance(1-5):")
 		imprtLabel.place(x = labelx, y = labely*4)
-	
+		# This is the function that is run when the "Add Task" button is pressed
 		def addGUIF():
 			Tasks.append(Task(subject.get(), \
 					  name.get(), \
@@ -61,15 +61,20 @@ def main():
 					  day.get(), \
 					  imprt.get()))
 			writeTasks()
+			# This re-writes everything on the main list of tasks
 			refreshGUI()
+			# Remove the window
 			add.destroy()
 
 		Confirm = Button(add, text="Confirm", command=addGUIF)
 		Confirm.place(x = 95, y = 100)	
-
+	
+	# This is the function that actually writes the tasks to the main screen
 	def showGUIF():
+		# Made this variable to reduce the space it was taking up (and for optimization)
 		m = getCurMonthDay()
 		for i in range(len(Tasks)):
+			# It does not print completed tasks
 			if Tasks[i].done == False:
 				TasksGUI.append(Label(main, text = \
 					 str(Tasks[i].id) + "\t" + \
@@ -78,6 +83,7 @@ def main():
 				    	 Tasks[i].month + "/" + \
 					 Tasks[i].day + "   " + \
 					 Tasks[i].imp))
+				# The the day it was due has passed, it will be gray
 				if getDayOfYear(Tasks[i].day, Tasks[i].month) < getDayOfYear(m[1], m[0]):
 					TasksGUI[i]['fg'] = 'gray'
 				TasksGUI[i].place(x = 20, y = 140+(25*i))
@@ -98,13 +104,14 @@ def main():
 					l[i][j].place(x = 20+(20*j), y = 100+(20*i))'''
 			
 
-		
+	# This function clears TasksGUI and re-writes the tasks to it
 	def refreshGUI():
 		for i in range(len(TasksGUI)):
 			TasksGUI[i].place_forget()
 		del TasksGUI[:]
 		showGUIF()
 
+	# This function removes a task
 	def removeGUI():
 		rem = Toplevel()
 		rem.title("Remove Task")	
@@ -117,6 +124,7 @@ def main():
 		ide.place(x = 60, y = 20)
 
 		def remGUIF():
+			# From the input, it removes it from main screen, then removes it from Tasks using remTask()
 			TasksGUI[int(ide.get())].place_forget()	
 			remTask(int(ide.get()))
 			refreshGUI()
@@ -124,7 +132,8 @@ def main():
 
 		idb = Button(rem, text="Remove", command=remGUIF)
 		idb.place(x = 40, y = 70)
-
+	
+	# Shows the tasks that are recommended for tomorrow (Due in 7 or less days)
 	def forTomorrowGUI():
 		ftList = []
 		ft = Toplevel()
@@ -140,44 +149,41 @@ def main():
 		
 		close = Button(ft, text="Close", command=ft.destroy)
 		close.place(x = 140, y = 50+(20*len(ftList)))
-
+	
+	# Creates a Google Calendar-like window in which the tasks for the week are written to
 	def viewTheWeekGUI():
 		weekGUI = [] # These are the labels for the days of the week
 		framesGUI = [] # These are the boxes that make it look like a spreadsheet
-		vList = [[]]*7 # These are the tasks printed as 
+		vList = [""]*7 # These are the tasks printed as labels
+
 		v = Toplevel()
 		v.title("Current Week")
 		v.geometry("700x200")
-		
-		today = getDayOfYear(getCurMonthDay()[0], getCurMonthDay()[1])
-		
-		temp = Tasks
 
+		for i in range(len(Tasks)):
+			gdud = getDaysUntilDue(Tasks[i].day, Tasks[i].month)
+			if gdud < 7 and TasksGUI[i]['fg'] != "grey":
+				vList[gdud+datetime.datetime.today().weekday()] += Tasks[i].name + ","
 
-		for i in range(len(temp)):
-			if getDaysUntilDue(temp[i].day, temp[i].month) < 7 and TasksGUI[i]['fg'] != 'grey':
-				vList[getDaysUntilDue(temp[i].day, temp[i].month)+datetime.datetime.today().weekday()] = [Label(v, text=temp[i].name)]
-		c = 0
-		for i in range(len(temp)):
-			if sameDayCnt(temp[i]) > c:
-				c = sameDayCnt(temp[i])
-		print c
-		if c > 1:
-			for i in range(len(temp)-c-2):
-				xday = getDaysUntilDue(temp[i].day, temp[i].month)+datetime.datetime.today().weekday()
-				for j in range(c-1):
-					vList[xday].append(Label(v, text = temp[j].name))
-		print vList
-		for i in range(7):
+		for i in range(len(vList)):
+			vList[i] = vList[i][:len(vList[i])-1].split(',')
+
+		for i in range(len(vList)):
+			if vList[i] != ['']:
+				for j in range(len(vList[i])):
+					vList[i][j] = Label(v, text = vList[i][j])
+
+		for i in range(len(vList)):
+			if vList[i] != ['']:
+				for j in range(len(vList[i])):
+					vList[i][j].place(x = 5+(96*i), y = 35*(j+1))
+
+		for i in range(len(vList)):
 			framesGUI.append(Frame(v, width=96, height=30, bd=1, relief=SOLID))
 			weekGUI.append(Label(v, text = days[i]))
 			
-		for i in range(7):
-			for j in range(len(vList[i])):
-				if vList[i][j] != []:
-					vList[i][j].place(x = 5+(96*i), y = 35*(j+1))
+		for i in range(len(vList)):
 			framesGUI[i].place(x = 5+(96*i), y = 5)
-			
 			weekGUI[i].grid(row=0, column=i, padx = 20, pady = 10)
 
 	def sortIDGUI():
