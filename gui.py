@@ -1,5 +1,7 @@
 '''
-gui.py - This is the GUI, it use Tkinter, and is a serious work in progress
+gui.py - This is the GUI of Planner. It uses Tkinter because I have
+the most experience in it out of all the Python GUIs. Although it 
+isn't pretty, I could care less. 
 '''
 
 from Tkinter import *
@@ -160,7 +162,7 @@ def main():
 		v.title("Current Week")
 		v.geometry("700x200")
 
-		# I made great improvements that make this element easier to understand and, possibly, more efficient
+		# (2/3/15) I made great improvements that make this element easier to understand and, possibly, more efficient
 
 		
 		# First, a loop iterates through Tasks and concatenates the tasks to their day (days are represented by gdud).
@@ -189,11 +191,15 @@ def main():
 		for i in range(len(vList)):
 			framesGUI.append(Frame(v, width=96, height=30, bd=1, relief=SOLID))
 			weekGUI.append(Label(v, text = days[i]))
+		
+		for i in range(len(weekGUI)):
+			if i == datetime.datetime.today().weekday():
+				weekGUI[i]['font'] = 'Verdana 9 bold'
 
 		# The Frame and Weekdays are then placed on v.
 		for i in range(len(vList)):
 			framesGUI[i].place(x = 5+(96*i), y = 5)
-			weekGUI[i].grid(row=0, column=i, padx = 20, pady = 10)
+			weekGUI[i].grid(row=0, column=i, padx = 19, pady = 10)
 
 	# These next functions are sorting functions. They call the sorting algorithm in specialTask and then call refreshGUI
 	def sortIDGUI():
