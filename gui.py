@@ -160,32 +160,42 @@ def main():
 		v.title("Current Week")
 		v.geometry("700x200")
 
+		# I made great improvements that make this element easier to understand and, possibly, more efficient
+
+		
+		# First, a loop iterates through Tasks and concatenates the tasks to their day (days are represented by gdud).
 		for i in range(len(Tasks)):
 			gdud = getDaysUntilDue(Tasks[i].day, Tasks[i].month)
 			if gdud < 7 and TasksGUI[i]['fg'] != "grey":
 				vList[gdud+datetime.datetime.today().weekday()] += Tasks[i].name + ","
-
+		
+		# A loop then goes through and removes the end comma, and uses .split on each element in vList.
 		for i in range(len(vList)):
 			vList[i] = vList[i][:len(vList[i])-1].split(',')
 
+		# Another loop goes through and changes each element to a Label.
 		for i in range(len(vList)):
 			if vList[i] != ['']:
 				for j in range(len(vList[i])):
 					vList[i][j] = Label(v, text = vList[i][j])
 
+		# These Labels are then placed on the screen v in coordinants from a 2-D loop.
 		for i in range(len(vList)):
 			if vList[i] != ['']:
 				for j in range(len(vList[i])):
 					vList[i][j].place(x = 5+(96*i), y = 35*(j+1))
-
+		
+		# The Frame and Weekdays are then initialized in their respective lists
 		for i in range(len(vList)):
 			framesGUI.append(Frame(v, width=96, height=30, bd=1, relief=SOLID))
 			weekGUI.append(Label(v, text = days[i]))
-			
+
+		# The Frame and Weekdays are then placed on v.
 		for i in range(len(vList)):
 			framesGUI[i].place(x = 5+(96*i), y = 5)
 			weekGUI[i].grid(row=0, column=i, padx = 20, pady = 10)
 
+	# These next functions are sorting functions. They call the sorting algorithm in specialTask and then call refreshGUI
 	def sortIDGUI():
 		sortByID(Tasks)
 		refreshGUI()
@@ -206,6 +216,7 @@ def main():
 		sortByImp(Tasks)
 		refreshGUI()
 
+	# These are all buttons which are tied to simpler functions
 	addB = Button(main, text="Add Task", command=addGUI)
 	addB.place(x = 20, y = 20)
 	
