@@ -89,21 +89,6 @@ def main():
 				if getDayOfYear(Tasks[i].day, Tasks[i].month) < getDayOfYear(m[1], m[0]):
 					TasksGUI[i]['fg'] = 'gray'
 				TasksGUI[i].place(x = 20, y = 140+(25*i))
-
-		'''for i in range(len(Tasks)):
-			l[i][0] = Label(main, text = str(Tasks[i].id))
-			l[i][1] = Label(main, text = Tasks[i].subject)
-			l[i][2] = Label(main, text = Tasks[i].name)
-			l[i][3] = Label(main, text = Tasks[i].month + "/" + Tasks[i].day)
-			for j in range(4):
-				if j == 1:
-					l[i][j].place(x = 20+(20*j), y = 100+(20*i))
-				elif j == 2:
-					l[i][j].place(x = 20+(30*j), y = 100+(20*i))
-				elif j == 3:
-					l[i][j].place(x = 20+(150*j), y = 100+(20*i))
-				else:
-					l[i][j].place(x = 20+(20*j), y = 100+(20*i))'''
 			
 
 	# This function clears TasksGUI and re-writes the tasks to it
@@ -164,12 +149,11 @@ def main():
 
 		# (2/3/15) I made great improvements that make this element easier to understand and, possibly, more efficient
 
-		
 		# First, a loop iterates through Tasks and concatenates the tasks to their day (days are represented by gdud).
 		for i in range(len(Tasks)):
 			gdud = getDaysUntilDue(Tasks[i].day, Tasks[i].month)
-			if gdud < 7 and TasksGUI[i]['fg'] != "grey":
-				vList[gdud+datetime.datetime.today().weekday()] += Tasks[i].name + ","
+			if gdud < 7-(datetime.datetime.today().weekday()) and TasksGUI[i]['fg'] != "grey":
+				vList[datetime.datetime.today().weekday()+gdud] += (Tasks[i].sub)Tasks[i].name + ","
 		
 		# A loop then goes through and removes the end comma, and uses .split on each element in vList.
 		for i in range(len(vList)):
@@ -191,10 +175,12 @@ def main():
 		for i in range(len(vList)):
 			framesGUI.append(Frame(v, width=96, height=30, bd=1, relief=SOLID))
 			weekGUI.append(Label(v, text = days[i]))
-		
+
+		# This makes whatever day it is bold.		
 		for i in range(len(weekGUI)):
 			if i == datetime.datetime.today().weekday():
 				weekGUI[i]['font'] = 'Verdana 9 bold'
+				
 
 		# The Frame and Weekdays are then placed on v.
 		for i in range(len(vList)):

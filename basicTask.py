@@ -28,9 +28,6 @@ class Task():
 	def setDone():
 		self.done = True
 
-	def getName():
-		return self.name
-	
 	
 # We need to somehow, after storing the tasks, retrieve them. This function is for that purpose.
 def getTasks():
